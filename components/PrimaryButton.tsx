@@ -26,6 +26,7 @@ export function PrimaryButton({
 	buttonOuterContainerStyle,
 	buttonInnerContainerStyle,
 	androidRippleColor,
+	onPress,
 	...rest
 }: ButtonType) {
 	return (
@@ -43,7 +44,8 @@ export function PrimaryButton({
 				}
 				android_ripple={{
 					color: androidRippleColor ? androidRippleColor : '#1954df',
-				}}>
+				}}
+				onPress={onPress}>
 				<Text style={[styles.buttonText, buttonTexStyle]}>{buttonTitle}</Text>
 			</Pressable>
 		</View>

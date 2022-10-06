@@ -1,12 +1,42 @@
-import { StyleSheet, TextInput, View, ImageBackground } from 'react-native'
+import {
+	StyleSheet,
+	TextInput,
+	View,
+	ImageBackground,
+	Alert,
+} from 'react-native'
 import { Card, PrimaryButton } from '../components'
 import { LinearGradient } from 'expo-linear-gradient'
 
 import { RootTabScreenProps } from '../types'
+import { useState } from 'react'
 
 export default function StartGameScreen({
 	navigation,
 }: RootTabScreenProps<'StartGame'>) {
+	const [enteredNumber, setEnteredNumber] = useState('')
+
+	const numberInputHandler = (enteredNumber: string) =>
+		setEnteredNumber(enteredNumber)
+
+	const restInputHandler = () => setEnteredNumber('')
+
+	const confirmInputHandler = () => {
+		const re = /^\d*(\.\d+)?$/
+
+		const chosenNumber = parseInt(enteredNumber)
+		if (!enteredNumber.match(re) || chosenNumber <= 0 || chosenNumber > 99) {
+			Alert.alert(
+				'Invalid number',
+				'Number has to be a number between 0 and 99',
+				[{ text: 'ok', style: 'destructive', onPress: restInputHandler }],
+			)
+			return
+		}
+
+		console.log('vaild number')
+	}
+
 	return (
 		<LinearGradient
 			colors={['#4e0329', '#ddb52f', '#ddb52f', '#ddb52f', '#ddb52f']}
@@ -23,18 +53,20 @@ export default function StartGameScreen({
 						keyboardType="number-pad"
 						autoCapitalize="none"
 						autoCorrect={false}
+						value={enteredNumber}
+						onChangeText={numberInputHandler}
 					/>
 					<View style={styles.buttonsContainer}>
 						<PrimaryButton
 							buttonTitle="Confirm"
-							onPress={() => console.log(5)}
+							onPress={confirmInputHandler}
 							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
 							buttonInnerContainerStyle={styles.buttonInnerContainer}
 							androidRippleColor="#640233"
 						/>
 						<PrimaryButton
 							buttonTitle="Rest"
-							onPress={() => console.log(5)}
+							onPress={restInputHandler}
 							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
 							buttonInnerContainerStyle={styles.buttonInnerContainer}
 							androidRippleColor="#640233"

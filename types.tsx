@@ -20,14 +20,16 @@ export type RootStackParamList = {
 	Root: NavigatorScreenParams<RootTabParamList> | undefined
 	Modal: undefined
 	NotFound: undefined
+	StartGame: undefined
+	Game: undefined
+	GameOver: undefined
 }
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 	NativeStackScreenProps<RootStackParamList, Screen>
 
 export type RootTabParamList = {
-	TabHome: undefined
-	TabInfo: undefined
+	StartGame: undefined
 }
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

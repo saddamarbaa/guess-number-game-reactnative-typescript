@@ -7,6 +7,7 @@ import {
 	ViewStyle,
 	TextStyle,
 } from 'react-native'
+import { colors } from '../constants'
 import { windowHeight } from '../utils'
 
 type ButtonType = {
@@ -43,7 +44,7 @@ export function PrimaryButton({
 						: [styles.buttonInnerContainer, buttonInnerContainerStyle]
 				}
 				android_ripple={{
-					color: androidRippleColor ? androidRippleColor : '#1954df',
+					color: androidRippleColor ? androidRippleColor : colors.secondary500,
 				}}
 				onPress={onPress}>
 				<Text style={[styles.buttonText, buttonTexStyle]}>{buttonTitle}</Text>
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	buttonInnerContainer: {
-		backgroundColor: '#2e64e5',
+		backgroundColor: colors.secondary500,
 		paddingVertical: 8,
 		paddingHorizontal: 16,
 		elevation: 2,

@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 
 import { RootTabScreenProps } from '../types'
 import { useState } from 'react'
+import { colors } from '../constants'
 
 export default function StartGameScreen({
 	navigation,
@@ -32,14 +33,25 @@ export default function StartGameScreen({
 				[{ text: 'ok', style: 'destructive', onPress: restInputHandler }],
 			)
 			return
-		}
+		} else {
+			// api call
+			navigation.navigate('Game', {
+				userPickedNumber: '3',
+			})
 
-		console.log('vaild number')
+			console.log('vaild number')
+		}
 	}
 
 	return (
 		<LinearGradient
-			colors={['#4e0329', '#ddb52f', '#ddb52f', '#ddb52f', '#ddb52f']}
+			colors={[
+				'#4e0329',
+				colors.yellow500,
+				colors.yellow500,
+				colors.yellow500,
+				colors.yellow500,
+			]}
 			style={styles.container}>
 			<ImageBackground
 				source={require('../assets/images/background.png')}
@@ -55,6 +67,7 @@ export default function StartGameScreen({
 						autoCorrect={false}
 						value={enteredNumber}
 						onChangeText={numberInputHandler}
+						selectionColor={colors.yellow500}
 					/>
 					<View style={styles.buttonsContainer}>
 						<PrimaryButton
@@ -62,14 +75,14 @@ export default function StartGameScreen({
 							onPress={confirmInputHandler}
 							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
 							buttonInnerContainerStyle={styles.buttonInnerContainer}
-							androidRippleColor="#640233"
+							androidRippleColor={colors.primary600}
 						/>
 						<PrimaryButton
 							buttonTitle="Rest"
 							onPress={restInputHandler}
 							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
 							buttonInnerContainerStyle={styles.buttonInnerContainer}
-							androidRippleColor="#640233"
+							androidRippleColor={colors.primary600}
 						/>
 					</View>
 				</Card>
@@ -84,7 +97,7 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		marginTop: 100,
-		backgroundColor: '#3b201f',
+		backgroundColor: colors.primary800,
 		marginHorizontal: 20,
 		alignItems: 'center',
 	},
@@ -98,7 +111,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	buttonInnerContainer: {
-		backgroundColor: '#72063c',
+		backgroundColor: colors.primary500,
 		elevation: 2,
 		borderRadius: 28,
 		margin: 4,
@@ -106,9 +119,9 @@ const styles = StyleSheet.create({
 	input: {
 		height: 50,
 		fontSize: 32,
-		borderBottomColor: '#ddb52f',
+		borderBottomColor: colors.yellow500,
 		borderBottomWidth: 2,
-		color: '#ddb52f',
+		color: colors.yellow500,
 		marginHorizontal: 8,
 		fontWeight: 'bold',
 		marginBottom: 8,

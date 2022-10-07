@@ -21,7 +21,7 @@ export type RootStackParamList = {
 	Modal: undefined
 	NotFound: undefined
 	StartGame: undefined
-	Game: undefined
+	Game: { userPickedNumber: string }
 	GameOver: undefined
 }
 
@@ -30,6 +30,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 
 export type RootTabParamList = {
 	StartGame: undefined
+	Game: { userPickedNumber: string }
 }
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

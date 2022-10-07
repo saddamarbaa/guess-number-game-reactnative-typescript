@@ -8,6 +8,7 @@ import ModalScreen from '../screens/ModalScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
 import { RootStackParamList } from '../types'
 import StartGameScreen from '../screens/StartGameScreen'
+import GameScreen from '../screens/GameScreen'
 
 const customTheme = {
 	...DefaultTheme,
@@ -40,6 +41,9 @@ function RootNavigator() {
 				headerShown: false,
 			}}>
 			<Stack.Screen name="StartGame" component={StartGameScreen} />
+
+			<Stack.Screen name="Game" component={GameScreen} />
+
 			<Stack.Screen
 				name="NotFound"
 				component={NotFoundScreen}

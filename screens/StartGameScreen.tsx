@@ -44,15 +44,7 @@ export default function StartGameScreen({
 	}
 
 	return (
-		<LinearGradient
-			colors={[
-				'#4e0329',
-				colors.yellow500,
-				colors.yellow500,
-				colors.yellow500,
-				colors.yellow500,
-			]}
-			style={styles.container}>
+		<LinearGradient colors={colors.gradient} style={styles.container}>
 			<ImageBackground
 				source={require('../assets/images/background.png')}
 				resizeMode="cover"
@@ -109,12 +101,11 @@ const styles = StyleSheet.create({
 	buttonOuterContainerStyle: {
 		margin: 4,
 		flex: 1,
+		borderRadius: 28,
 	},
 	buttonInnerContainer: {
 		backgroundColor: colors.primary500,
 		elevation: 2,
-		borderRadius: 28,
-		margin: 4,
 	},
 	input: {
 		height: 50,

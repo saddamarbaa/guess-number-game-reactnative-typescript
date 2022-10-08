@@ -19,8 +19,10 @@ export const colors = {
 	primary500: '#70203c',
 	primary600: '#640233',
 	primary800: '#3b201f',
-  yellow500: '#ddb52f',
-  secondary500:'#2e64e5'
+	primary900: '#4e0329',
+	yellow500: '#ddb52f',
+	secondary500: '#2e64e5',
+	gradient: ['#4e0329', '#ddb52f', '#ddb52f', '#ddb52f', '#ddb52f'],
 }
 
 export default colors

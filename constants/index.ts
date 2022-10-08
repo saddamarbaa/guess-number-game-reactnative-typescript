@@ -1,2 +1,2 @@
-export * from './colors'
+export * from './Colors'
 export * from './Layout'

@@ -4,6 +4,7 @@ import {
 	ImageBackground,
 	Alert,
 	SafeAreaView,
+	Platform,
 } from 'react-native'
 import { PrimaryButton } from '../components'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -44,21 +45,13 @@ export default function GameScreen({
 	}
 
 	return (
-		<LinearGradient
-			colors={[
-				'#4e0329',
-				colors.yellow500,
-				colors.yellow500,
-				colors.yellow500,
-				colors.yellow500,
-			]}
-			style={styles.container}>
+		<LinearGradient colors={colors.gradient} style={styles.container}>
 			<ImageBackground
 				source={require('../assets/images/background.png')}
 				resizeMode="cover"
 				style={styles.container}
 				imageStyle={styles.backgroundImage}>
-				<SafeAreaView style={styles.screen}>
+				<SafeAreaView style={styles.droidSafeArea}>
 					<Tittle>Opponent,s Guess</Tittle>
 					<View style={styles.buttonsContainer}>
 						<PrimaryButton
@@ -66,14 +59,14 @@ export default function GameScreen({
 							onPress={confirmInputHandler}
 							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
 							buttonInnerContainerStyle={styles.buttonInnerContainer}
-							androidRippleColor="#640233"
+							androidRippleColor={colors.primary600}
 						/>
 						<PrimaryButton
 							buttonTitle="-"
 							onPress={restInputHandler}
 							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
 							buttonInnerContainerStyle={styles.buttonInnerContainer}
-							androidRippleColor="#640233"
+							androidRippleColor={colors.primary600}
 						/>
 					</View>
 				</SafeAreaView>
@@ -86,10 +79,10 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-	screen: {
+	droidSafeArea: {
 		flex: 1,
-		padding: 40,
-		marginHorizontal: 20,
+		paddingTop: Platform.OS === 'android' ? 25 : 10,
+		margin: 15,
 	},
 
 	buttonsContainer: {
@@ -100,12 +93,11 @@ const styles = StyleSheet.create({
 	buttonOuterContainerStyle: {
 		margin: 4,
 		flex: 1,
+		borderRadius: 28,
 	},
 	buttonInnerContainer: {
-		backgroundColor: '#72063c',
+		backgroundColor: colors.primary500,
 		elevation: 2,
-		borderRadius: 28,
-		margin: 4,
 	},
 	backgroundImage: {
 		opacity: 0.5,

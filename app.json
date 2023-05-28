@@ -3,17 +3,13 @@
 		"name": "Guess the number game",
 		"slug": "Guess the number game",
 		"version": "1.0.0",
-		"orientation": "portrait",
+		"orientation": "default",
 		"icon": "./assets/images/icon.png",
-		"scheme": "myapp",
-		"userInterfaceStyle": "automatic",
+		"userInterfaceStyle": "light",
 		"splash": {
 			"image": "./assets/images/splash.png",
 			"resizeMode": "contain",
 			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {

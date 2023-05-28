@@ -7,10 +7,12 @@ import {
 	ViewStyle,
 	TextStyle,
 } from 'react-native'
-import { colors } from '../constants'
-import { windowHeight } from '../utils'
+
+import { colors } from '../../constants'
+import { windowHeight } from '../../utils'
 
 type ButtonType = {
+	children?: React.ReactNode
 	buttonTitle: string
 	onPress?: () => void
 	btnType?: string
@@ -27,6 +29,7 @@ export function PrimaryButton({
 	buttonOuterContainerStyle,
 	buttonInnerContainerStyle,
 	androidRippleColor,
+	children,
 	onPress,
 	...rest
 }: ButtonType) {
@@ -47,7 +50,9 @@ export function PrimaryButton({
 					color: androidRippleColor ? androidRippleColor : colors.secondary500,
 				}}
 				onPress={onPress}>
-				<Text style={[styles.buttonText, buttonTexStyle]}>{buttonTitle}</Text>
+				<Text style={[styles.buttonText, buttonTexStyle]}>
+					{children || buttonTitle}
+				</Text>
 			</Pressable>
 		</View>
 	)

@@ -1,105 +1,210 @@
 import {
 	StyleSheet,
 	View,
-	ImageBackground,
 	Alert,
 	SafeAreaView,
 	Platform,
+	Text,
+	FlatList,
 } from 'react-native'
-import { PrimaryButton } from '../components'
-import { LinearGradient } from 'expo-linear-gradient'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import uuid from 'react-native-uuid'
 
-import { RootTabScreenProps } from '../types'
-import { useLayoutEffect, useState } from 'react'
+import {
+	Card,
+	CustomTitle,
+	LogItem,
+	NumberContainer,
+	PrimaryButton,
+} from '../components'
 import { colors } from '../constants'
-import { Tittle } from '../components/Title'
+import { GameScreenProps } from '../types'
+import { GradientWrapper } from '../layout'
+import { BackIcon } from '../icons'
+import { getRandomIntNumberBetween } from '../utils'
 
-export default function GameScreen({
-	route,
-	navigation,
-}: RootTabScreenProps<'Game'>) {
-	const [enteredNumber, setEnteredNumber] = useState('')
-	const [userNumber, setUserNumber] = useState<null | number>(null)
+let minBoundary = 1
+let maxBoundary = 100
+
+export default function GameScreen({ route, navigation }: GameScreenProps) {
+	const [userNumber, setUserNumber] = useState<number | null>(null)
+	const initialGuess = getRandomIntNumberBetween(1, 100)
+	const [currentGuess, setCurrentGuess] = useState(initialGuess)
+	const [guessRounds, setGuessRounds] = useState<number[]>([initialGuess])
+	const [refreshing, setRefreshing] = useState(false)
 
 	useLayoutEffect(() => {
-		setUserNumber(Number(route?.params?.userPickedNumber || 0))
-	}, [navigation])
+		const userPickedNumber = Number(route?.params?.userPickedNumber || 0)
+		setUserNumber(userPickedNumber)
+		const randomNumber = getRandomIntNumberBetween(1, 100, userPickedNumber)
+		setCurrentGuess(randomNumber)
+	}, [navigation, route])
 
-	const numberInputHandler = (enteredNumber: string) =>
-		setEnteredNumber(enteredNumber)
+	const guessRoundsListLength = guessRounds.length
 
-	const restInputHandler = () => setEnteredNumber('')
+	function restState() {
+		setGuessRounds([])
+		minBoundary = 1
+		maxBoundary = 100
+	}
 
-	const confirmInputHandler = () => {
-		const re = /^\d*(\.\d+)?$/
+	useEffect(() => {
+		if (currentGuess === userNumber) {
+			restState()
+			navigation.navigate('GameOver', {
+				userPickedNumber: userNumber,
+				guessRound: guessRoundsListLength,
+			})
+		}
+	}, [currentGuess, userNumber])
 
-		const chosenNumber = parseInt(enteredNumber)
-		if (!enteredNumber.match(re) || chosenNumber <= 0 || chosenNumber > 99) {
-			Alert.alert(
-				'Invalid number',
-				'Number has to be a number between 0 and 99',
-				[{ text: 'ok', style: 'destructive', onPress: restInputHandler }],
-			)
+	function nextGuessHandler(direction: 'Lower' | 'Greater') {
+		// direction => 'lower', 'greater'
+		if (
+			(userNumber && direction === 'Lower' && currentGuess < userNumber) ||
+			(userNumber && direction === 'Greater' && currentGuess > userNumber)
+		) {
+			Alert.alert('Invalid Guess', 'Please choose a valid direction.', [
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+			])
 			return
 		}
+
+		if (direction === 'Lower') {
+			maxBoundary = currentGuess
+		} else {
+			minBoundary = currentGuess + 1
+		}
+
+		const newRndNumber = getRandomIntNumberBetween(
+			minBoundary,
+			maxBoundary,
+			currentGuess,
+		)
+		setCurrentGuess(newRndNumber)
+		setGuessRounds((prevGuessRounds) => [newRndNumber, ...prevGuessRounds])
+	}
+
+	const handleRefresh = () => {
+		setRefreshing((prevState) => !prevState)
+	}
+
+	const myItemSeparator = () => {
+		return <View style={{ backgroundColor: 'grey' }} />
+	}
+
+	const myListEmpty = () => {
+		return null
 	}
 
 	return (
-		<LinearGradient colors={colors.gradient} style={styles.container}>
-			<ImageBackground
-				source={require('../assets/images/background.png')}
-				resizeMode="cover"
-				style={styles.container}
-				imageStyle={styles.backgroundImage}>
-				<SafeAreaView style={styles.droidSafeArea}>
-					<Tittle>Opponent,s Guess</Tittle>
-					<View style={styles.buttonsContainer}>
-						<PrimaryButton
-							buttonTitle="+"
-							onPress={confirmInputHandler}
-							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
-							buttonInnerContainerStyle={styles.buttonInnerContainer}
-							androidRippleColor={colors.primary600}
-						/>
-						<PrimaryButton
-							buttonTitle="-"
-							onPress={restInputHandler}
-							buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
-							buttonInnerContainerStyle={styles.buttonInnerContainer}
-							androidRippleColor={colors.primary600}
-						/>
-					</View>
-				</SafeAreaView>
-			</ImageBackground>
-		</LinearGradient>
+		<GradientWrapper>
+			<SafeAreaView style={styles.droidSafeArea}>
+				<BackIcon
+					onPress={() => {
+						restState()
+						navigation.goBack()
+					}}
+				/>
+				<CustomTitle>Opponent,s Guess</CustomTitle>
+				<NumberContainer>{currentGuess}</NumberContainer>
+				<View style={styles.buttonsContainer}>
+					<Card style={styles.card}>
+						<Text style={styles.text}> Higher or lower?</Text>
+						<View style={styles.buttonsContainer}>
+							<PrimaryButton
+								buttonTitle="+"
+								onPress={() => {
+									nextGuessHandler('Greater')
+								}}
+								buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
+								buttonInnerContainerStyle={styles.buttonInnerContainer}
+								androidRippleColor={colors.primary600}
+								buttonTexStyle={styles.buttonTexStyle}>
+								<Ionicons name="md-add" size={24} color="white" />
+							</PrimaryButton>
+
+							<PrimaryButton
+								buttonTitle="-"
+								onPress={() => {
+									nextGuessHandler('Lower')
+								}}
+								buttonOuterContainerStyle={styles.buttonOuterContainerStyle}
+								buttonInnerContainerStyle={styles.buttonInnerContainer}
+								androidRippleColor={colors.primary600}
+								buttonTexStyle={styles.buttonTexStyle}>
+								<Ionicons name="md-remove" size={24} color="white" />
+							</PrimaryButton>
+						</View>
+					</Card>
+				</View>
+
+				<View style={styles.listContainer}>
+					<FlatList
+						alwaysBounceVertical={false}
+						data={guessRounds}
+						renderItem={({ item, index, separators }) => (
+							<LogItem
+								guess={item}
+								roundedNumber={guessRoundsListLength - index}
+							/>
+						)}
+						keyExtractor={(item) => uuid.v4() as string}
+						ItemSeparatorComponent={myItemSeparator}
+						ListEmptyComponent={myListEmpty}
+						refreshing={refreshing}
+						onRefresh={handleRefresh}
+					/>
+				</View>
+			</SafeAreaView>
+		</GradientWrapper>
 	)
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
 	droidSafeArea: {
 		flex: 1,
 		paddingTop: Platform.OS === 'android' ? 25 : 10,
 		margin: 15,
 	},
-
 	buttonsContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
+	buttonTexStyle: { fontWeight: 'bold', fontSize: 25 },
 	buttonOuterContainerStyle: {
 		margin: 4,
 		flex: 1,
 		borderRadius: 28,
+		marginTop: 10,
 	},
 	buttonInnerContainer: {
 		backgroundColor: colors.primary500,
 		elevation: 2,
 	},
-	backgroundImage: {
-		opacity: 0.5,
+	card: {
+		flex: 1,
+		backgroundColor: colors.primary800,
+		alignItems: 'center',
+	},
+	text: {
+		color: colors.yellow500,
+		fontSize: 20,
+		fontWeight: 'bold',
+		fontFamily: 'open-sans',
+	},
+	logsContainer: {
+		flexDirection: 'column',
+	},
+	listContainer: {
+		flex: 1,
+		flexDirection: 'column',
+		paddingVertical: 5,
 	},
 })

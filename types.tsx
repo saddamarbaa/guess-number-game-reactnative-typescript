@@ -1,40 +1,47 @@
-/**
- * Learn more about using TypeScript with React Navigation:
- * https://reactnavigation.org/docs/typescript/
- */
-
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import {
-	CompositeScreenProps,
 	NavigatorScreenParams,
+	CompositeScreenProps,
 } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import type { StackScreenProps } from '@react-navigation/stack'
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 
-declare global {
-	namespace ReactNavigation {
-		interface RootParamList extends RootStackParamList {}
+export type RootStackParamList = {
+	Home: undefined
+	Details: {
+		id: string | number
+		otherParam?: string
+	}
+	Profile: {
+		userId: string
+	}
+	StartGame: undefined
+	Game: { userPickedNumber: string }
+	GameOver: {
+		userPickedNumber: number
+		guessRound: number
 	}
 }
 
-export type RootStackParamList = {
-	Root: NavigatorScreenParams<RootTabParamList> | undefined
-	Modal: undefined
-	NotFound: undefined
-	StartGame: undefined
-	Game: { userPickedNumber: string }
-	GameOver: undefined
-}
+export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>
+export type ProfileScreenProps = NativeStackScreenProps<
+	RootStackParamList,
+	'Profile'
+>
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
-	NativeStackScreenProps<RootStackParamList, Screen>
+export type DetailsScreenProps = NativeStackScreenProps<
+	RootStackParamList,
+	'Details'
+>
 
-export type RootTabParamList = {
-	StartGame: undefined
-	Game: { userPickedNumber: string }
-}
+export type StartGameScreenProps = NativeStackScreenProps<
+	RootStackParamList,
+	'StartGame'
+>
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
-	CompositeScreenProps<
-		BottomTabScreenProps<RootTabParamList, Screen>,
-		NativeStackScreenProps<RootStackParamList>
-	>
+export type GameScreenProps = NativeStackScreenProps<RootStackParamList, 'Game'>
+
+export type GameOverScreenProps = NativeStackScreenProps<
+	RootStackParamList,
+	'GameOver'
+>

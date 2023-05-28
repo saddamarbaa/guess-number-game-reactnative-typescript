@@ -1,20 +1,49 @@
+import React, { useEffect, useCallback } from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 
-import useCachedResources from './hooks/useCachedResources'
-import useColorScheme from './hooks/useColorScheme'
-import Navigation from './navigation'
+import { AppNavigator } from './navigation'
 
 export default function App() {
-	const isLoadingComplete = useCachedResources()
-	const colorScheme = useColorScheme()
+	const [fontsLoaded] = useFonts({
+		'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+		'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+	})
 
-	if (!isLoadingComplete) {
+	useEffect(() => {
+		preventAutoHideSplashScreen()
+	}, [])
+
+	const preventAutoHideSplashScreen = useCallback(async () => {
+		try {
+			await SplashScreen.preventAutoHideAsync()
+		} catch (error) {
+			console.warn('Error preventing splash screen auto hide:', error)
+		}
+	}, [])
+
+	const hideSplashScreen = useCallback(async () => {
+		try {
+			await SplashScreen.hideAsync()
+		} catch (error) {
+			console.warn('Error hiding splash screen:', error)
+		}
+	}, [])
+
+	useEffect(() => {
+		if (fontsLoaded) {
+			hideSplashScreen()
+		}
+	}, [fontsLoaded, hideSplashScreen])
+
+	if (!fontsLoaded) {
 		return null
-	} else {
-		return (
-			<SafeAreaProvider>
-				<Navigation colorScheme={colorScheme} />
-			</SafeAreaProvider>
-		)
 	}
+
+	return (
+		<SafeAreaProvider>
+			<AppNavigator />
+		</SafeAreaProvider>
+	)
 }

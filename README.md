@@ -221,19 +221,7 @@ Contributions are always welcome!
 # Screenshots
 
 
-## Add New Goal Screen
-<p>
-<img width="410" alt="Screenshot 2023-05-20 at 17 03 53" src="https://github.com/saddamarbaa/goal-tracker-app-react-native-typescript/assets/51326421/2c63a691-c72b-4953-8e21-73e4882be1c4">
-</P>
-
-<br>
-
-<p>
-<img width="417" alt="Screenshot 2023-05-20 at 17 04 22" src="https://github.com/saddamarbaa/goal-tracker-app-react-native-typescript/assets/51326421/9752c15a-657b-4017-be39-7458b7c1fcb6">
-</P>
-
-
-## Home Screen
+## Start Game Screen
 
 <p>
 <img width="424" alt="Screenshot 2023-05-29 at 07 35 17" src="https://github.com/saddamarbaa/guess-number-game-react-native-typescript/assets/51326421/03b4ed2e-2421-4458-8ffe-1ab107246b8a">
@@ -248,12 +236,32 @@ Contributions are always welcome!
 
 
 
-## Detail Screen
+
+## Game Screen
 <div>
-<img width="422" alt="Screenshot 2023-05-20 at 22 27 05" src="https://github.com/saddamarbaa/goal-tracker-app-react-native-typescript/assets/51326421/cba68ef9-2ab4-4c7d-b6cc-862c79524b2b">
+<img width="424" alt="Screenshot 2023-05-29 at 07 40 41" src="https://github.com/saddamarbaa/guess-number-game-react-native-typescript/assets/51326421/8f80a28c-ac4f-4a00-b4aa-b51d5a8da890">
 </div>
 
 <br>
 <div>
-<img width="422" alt="Screenshot 2023-05-20 at 22 25 06" src="https://github.com/saddamarbaa/goal-tracker-app-react-native-typescript/assets/51326421/1c4ef127-f569-475a-96c2-c1759c0f99a0">
+<img width="402" alt="Screenshot 2023-05-29 at 07 41 27" src="https://github.com/saddamarbaa/guess-number-game-react-native-typescript/assets/51326421/dc1d564a-40d0-497f-b57c-687e0cf735fb">
+</div>
+
+
+<br>
+<div>
+<img width="424" alt="Screenshot 2023-05-29 at 07 41 03" src="https://github.com/saddamarbaa/guess-number-game-react-native-typescript/assets/51326421/dd5ae024-d0f4-45da-bc5f-f757cc475c3b">
+</div>
+
+
+
+
+## Game Over Screen
+<div>
+<img width="418" alt="Screenshot 2023-05-29 at 07 45 23" src="https://github.com/saddamarbaa/guess-number-game-react-native-typescript/assets/51326421/c756dca9-7195-4280-ac55-0d483272381d">
+</div>
+
+<br>
+<div>
+<img width="402" alt="Screenshot 2023-05-29 at 07 43 49" src="https://github.com/saddamarbaa/guess-number-game-react-native-typescript/assets/51326421/a85329f0-7d6a-4e71-8ffc-a6571d2d9aee">
 </div>
